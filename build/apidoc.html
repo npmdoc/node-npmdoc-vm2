@@ -1,0 +1,963 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/patriksimek/vm2#readme"
+
+    >vm2 (v3.4.6)</a>
+</h1>
+<h4>vm2 is a sandbox that can run untrusted code with whitelisted Node's built-in modules. Securely!</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.vm2">module vm2</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.NodeVM">
+            function <span class="apidocSignatureSpan">vm2.</span>NodeVM
+            <span class="apidocSignatureSpan">(options = {})</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.VM">
+            function <span class="apidocSignatureSpan">vm2.</span>VM
+            <span class="apidocSignatureSpan">(options = {})</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.VMError">
+            function <span class="apidocSignatureSpan">vm2.</span>VMError
+            <span class="apidocSignatureSpan">(message)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.VMScript">
+            function <span class="apidocSignatureSpan">vm2.</span>VMScript
+            <span class="apidocSignatureSpan">(code, filename)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">vm2.</span>main</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.vm2.main">module vm2.main</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.main.NodeVM">
+            function <span class="apidocSignatureSpan">vm2.main.</span>NodeVM
+            <span class="apidocSignatureSpan">(options = {})</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.main.VM">
+            function <span class="apidocSignatureSpan">vm2.main.</span>VM
+            <span class="apidocSignatureSpan">(options = {})</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.main.VMError">
+            function <span class="apidocSignatureSpan">vm2.main.</span>VMError
+            <span class="apidocSignatureSpan">(message)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.vm2.main.VMScript">
+            function <span class="apidocSignatureSpan">vm2.main.</span>VMScript
+            <span class="apidocSignatureSpan">(code, filename)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.vm2" id="apidoc.module.vm2">module vm2</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.NodeVM" id="apidoc.element.vm2.NodeVM">
+        function <span class="apidocSignatureSpan">vm2.</span>NodeVM
+        <span class="apidocSignatureSpan">(options = {})</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class NodeVM extends EventEmitter {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create NodeVM instance.
+	 *
+	 * Unlike VM, NodeVM lets you use require same way like in regular node.
+	 *
+	 * @param {Object} [options] VM options.
+	 * @return {NodeVM}
+	 */
+</span>
+	constructor(options = {}) {
+		super();
+
+		// defaults
+		this.options = {
+			sandbox: options.sandbox != null ? options.sandbox : null,
+			console: options.console != null ? options.console : &#x27;inherit&#x27;,
+			require: options.require != null ? options.require : false,
+			compiler: options.compiler != null ? options.compiler : &#x27;javascript&#x27;,
+			require: options.require != null ? options.require : false,
+			nesting: options.nesting != null ? options.nesting : false,
+			wrapper: options.wrapper != null ? options.wrapper : &#x27;commonjs&#x27;
+		};
+
+		const host = {
+			require,
+			process,
+			console,
+			setTimeout,
+			setInterval,
+			setImmediate,
+			clearTimeout,
+			clearInterval,
+			clearImmediate,
+			String,
+			Number,
+			Buffer,
+			Boolean,
+			Array,
+			Date,
+			Error,
+			RangeError,
+			ReferenceError,
+			SyntaxError,
+			TypeError,
+			RegExp,
+			Function,
+			Object,
+			VMError,
+			Proxy,
+			Reflect,
+			Map,
+			WeakMap,
+			Set,
+			WeakSet,
+			Promise
+		}
+
+		if (this.options.nesting) {
+			host.VM = VM;
+			host.NodeVM = NodeVM;
+		}
+
+		this._context = vm.createContext();
+
+		Object.defineProperty(this, &#x27;_internal&#x27;, {
+			value: vm.runInContext(`(function(require, host) { ${cf} \n})`, this._context, {
+				filename: `${__dirname}/contextify.js`,
+				displayErrors: false
+			}).call(this._context, require, host)
+		})
+
+		const closure = vm.runInContext(`(function (vm, host, Contextify, Decontextify, Buffer) { ${sb} \n})`, this._context, {
+			filename: `${__dirname}/sandbox.js`,
+			displayErrors: false
+		})
+
+		Object.defineProperty(this, &#x27;_prepareRequire&#x27;, {
+			value: closure.call(this._context, this, host, this._internal.Contextify, this._internal.Decontextify, this._internal.Buffer)
+		})
+
+		// prepare global sandbox
+		if (this.options.sandbox) {
+			if (&#x27;object&#x27; !== typeof this.options.sandbox) {
+				throw new VMError(&#x22;Sandbox must be object.&#x22;);
+			}
+
+			for (let name in this.options.sandbox) {
+				this._internal.Contextify.globalValue(this.options.sandbox[name], name);
+			}
+		}
+
+		if (this.options.require &#x26;&#x26; this.options.require.import) {
+			if (!Array.isArray(this.options.require.import)) {
+				this.options.require.import = [this.options.require.import];
+			}
+
+			for (let i = 0, l = this.options.require.import.length; i &#x3c; l; i++) {
+				this.require(this.options.require.import[i]);
+			}
+		}
+	}
+
+	/**
+	 * @deprecated
+	 */
+
+	call(method, ...args) {
+		if (&#x27;function&#x27; === typeof method) {
+			return method.apply(args);
+
+		} else {
+			throw new VMError(&#x22;Unrecognized method type.&#x22;);
+		}
+	}
+
+	/**
+	 * Freezes the object inside VM making it read-only. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to freeze.
+	 */
+
+	freeze(value, globalName) {
+		this._internal.Contextify.readonly(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Protects the object inside VM making impossible to set functions as it&#x27;s properties. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to protect.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to protect.
+	 */
+
+	protect(value, globalName) {
+		this._internal.Contextify.protected(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Require a module in VM and return it&#x27;s exports.
+	 *
+	 * @param {String} module Module name.
+	 * @return {*} Exported module.
+	 */
+
+	require(module) {
+		return this.run(`module.exports = require(&#x27;${module}&#x27;);`, &#x27;vm.js&#x27;);
+	}
+
+	/**
+	 * Run the code in NodeVM.
+	 *
+	 * First time you run this method, code is executed same way like in node&#x27;s regular `require` - it&#x27;s executed with `module`, `require
+`, `exports`, `__dirname`, `__filename` variables and expect result in `mo ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.VM" id="apidoc.element.vm2.VM">
+        function <span class="apidocSignatureSpan">vm2.</span>VM
+        <span class="apidocSignatureSpan">(options = {})</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VM extends EventEmitter {
+	<span class="apidocCodeCommentSpan">/**
+	 * Makes the object read only.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @return {*} Frozen object.
+	 */
+</span>
+	/**
+	 * Create VM instance.
+	 *
+	 * @param {Object} [options] VM options.
+	 * @return {VM}
+	 */
+
+	constructor(options = {}) {
+		super();
+
+		// defaults
+		this.options = {
+			timeout: options.timeout != null ? options.timeout : undefined,
+			sandbox: options.sandbox != null ? options.sandbox : null,
+			compiler: options.compiler != null ? options.compiler : &#x27;javascript&#x27;
+		};
+
+		const host = {
+			console,
+			String,
+			Number,
+			Buffer,
+			Boolean,
+			Array,
+			Date,
+			Error,
+			RangeError,
+			ReferenceError,
+			SyntaxError,
+			TypeError,
+			RegExp,
+			Function,
+			Object,
+			VMError,
+			Proxy,
+			Reflect,
+			Map,
+			WeakMap,
+			Set,
+			WeakSet,
+			Promise
+		};
+
+		this._context = vm.createContext();
+
+		Reflect.defineProperty(this, &#x27;_internal&#x27;, {
+			value: vm.runInContext(`(function(require, host) { ${cf} \n})`, this._context, {
+				filename: `${__dirname}/contextify.js`,
+				displayErrors: false
+			}).call(this._context, require, host)
+		});
+
+		// prepare global sandbox
+		if (this.options.sandbox) {
+			if (&#x27;object&#x27; !== typeof this.options.sandbox) {
+				throw new VMError(&#x22;Sandbox must be object.&#x22;);
+			}
+
+			for (let name in this.options.sandbox) {
+				this._internal.Contextify.globalValue(this.options.sandbox[name], name);
+			}
+		}
+	}
+
+	/**
+	 * Freezes the object inside VM making it read-only. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to freeze.
+	 */
+
+	freeze(value, globalName) {
+		this._internal.Contextify.readonly(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Protects the object inside VM making impossible to set functions as it&#x27;s properties. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to protect.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to protect.
+	 */
+
+	protect(value, globalName) {
+		this._internal.Contextify.protected(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Run the code in VM.
+	 *
+	 * @param {String} code Code to run.
+	 * @return {*} Result of executed code.
+	 */
+
+	run(code) {
+		if (this.options.compiler !== &#x27;javascript&#x27;) {
+			code = _compileToJS(code, this.options.compiler);
+		}
+		
+		const script = code instanceof VMScript ? code : new VMScript(code);
+
+		try {
+			return this._internal.Decontextify.value(script.compile()._compiled.runInContext(this._context, {
+				filename: script.filename,
+				displayErrors: false,
+				timeout: this.options.timeout
+			}));
+		} catch (e) {
+			throw this._internal.Decontextify.value(e);
+		}
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.VMError" id="apidoc.element.vm2.VMError">
+        function <span class="apidocSignatureSpan">vm2.</span>VMError
+        <span class="apidocSignatureSpan">(message)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VMError extends Error {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create VMError instance.
+	 *
+	 * @param {String} message Error message.
+	 * @return {VMError}
+	 */
+</span>
+	constructor(message) {
+		super(message);
+
+		this.name = &#x27;VMError&#x27;;
+
+		Error.captureStackTrace(this, this.constructor);
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.VMScript" id="apidoc.element.vm2.VMScript">
+        function <span class="apidocSignatureSpan">vm2.</span>VMScript
+        <span class="apidocSignatureSpan">(code, filename)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VMScript {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create VMScript instance.
+	 *
+	 * @param {String} code Code to run.
+	 * @param {String} [filename] Filename that shows up in any stack traces produced from this script.
+	 * @return {VMScript}
+	 */
+</span>
+	constructor(code, filename) {
+		this.code = code;
+		this.filename = filename || &#x27;vm.js&#x27;;
+	}
+
+	/**
+	 * Wraps the code.
+	 *
+	 * @return {VMScript}
+	 */
+	
+	wrap(prefix, postfix) {
+		if (this._wrapped) return this;
+		this.code = prefix + this.code + postfix;
+		this._wrapped = true;
+		return this;
+	}
+
+	/**
+	 * Compiles the code. If called multiple times, the code is only compiled once.
+	 *
+	 * @return {VMScript}
+	 */
+	
+	compile() {
+		if (this._compiled) return this;
+		
+		this._compiled = new vm.Script(this.code, {
+			filename: this.filename,
+			displayErrors: false
+		})
+		
+		return this;
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.vm2.main" id="apidoc.module.vm2.main">module vm2.main</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.main.NodeVM" id="apidoc.element.vm2.main.NodeVM">
+        function <span class="apidocSignatureSpan">vm2.main.</span>NodeVM
+        <span class="apidocSignatureSpan">(options = {})</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class NodeVM extends EventEmitter {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create NodeVM instance.
+	 *
+	 * Unlike VM, NodeVM lets you use require same way like in regular node.
+	 *
+	 * @param {Object} [options] VM options.
+	 * @return {NodeVM}
+	 */
+</span>
+	constructor(options = {}) {
+		super();
+
+		// defaults
+		this.options = {
+			sandbox: options.sandbox != null ? options.sandbox : null,
+			console: options.console != null ? options.console : &#x27;inherit&#x27;,
+			require: options.require != null ? options.require : false,
+			compiler: options.compiler != null ? options.compiler : &#x27;javascript&#x27;,
+			require: options.require != null ? options.require : false,
+			nesting: options.nesting != null ? options.nesting : false,
+			wrapper: options.wrapper != null ? options.wrapper : &#x27;commonjs&#x27;
+		};
+
+		const host = {
+			require,
+			process,
+			console,
+			setTimeout,
+			setInterval,
+			setImmediate,
+			clearTimeout,
+			clearInterval,
+			clearImmediate,
+			String,
+			Number,
+			Buffer,
+			Boolean,
+			Array,
+			Date,
+			Error,
+			RangeError,
+			ReferenceError,
+			SyntaxError,
+			TypeError,
+			RegExp,
+			Function,
+			Object,
+			VMError,
+			Proxy,
+			Reflect,
+			Map,
+			WeakMap,
+			Set,
+			WeakSet,
+			Promise
+		}
+
+		if (this.options.nesting) {
+			host.VM = VM;
+			host.NodeVM = NodeVM;
+		}
+
+		this._context = vm.createContext();
+
+		Object.defineProperty(this, &#x27;_internal&#x27;, {
+			value: vm.runInContext(`(function(require, host) { ${cf} \n})`, this._context, {
+				filename: `${__dirname}/contextify.js`,
+				displayErrors: false
+			}).call(this._context, require, host)
+		})
+
+		const closure = vm.runInContext(`(function (vm, host, Contextify, Decontextify, Buffer) { ${sb} \n})`, this._context, {
+			filename: `${__dirname}/sandbox.js`,
+			displayErrors: false
+		})
+
+		Object.defineProperty(this, &#x27;_prepareRequire&#x27;, {
+			value: closure.call(this._context, this, host, this._internal.Contextify, this._internal.Decontextify, this._internal.Buffer)
+		})
+
+		// prepare global sandbox
+		if (this.options.sandbox) {
+			if (&#x27;object&#x27; !== typeof this.options.sandbox) {
+				throw new VMError(&#x22;Sandbox must be object.&#x22;);
+			}
+
+			for (let name in this.options.sandbox) {
+				this._internal.Contextify.globalValue(this.options.sandbox[name], name);
+			}
+		}
+
+		if (this.options.require &#x26;&#x26; this.options.require.import) {
+			if (!Array.isArray(this.options.require.import)) {
+				this.options.require.import = [this.options.require.import];
+			}
+
+			for (let i = 0, l = this.options.require.import.length; i &#x3c; l; i++) {
+				this.require(this.options.require.import[i]);
+			}
+		}
+	}
+
+	/**
+	 * @deprecated
+	 */
+
+	call(method, ...args) {
+		if (&#x27;function&#x27; === typeof method) {
+			return method.apply(args);
+
+		} else {
+			throw new VMError(&#x22;Unrecognized method type.&#x22;);
+		}
+	}
+
+	/**
+	 * Freezes the object inside VM making it read-only. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to freeze.
+	 */
+
+	freeze(value, globalName) {
+		this._internal.Contextify.readonly(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Protects the object inside VM making impossible to set functions as it&#x27;s properties. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to protect.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to protect.
+	 */
+
+	protect(value, globalName) {
+		this._internal.Contextify.protected(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Require a module in VM and return it&#x27;s exports.
+	 *
+	 * @param {String} module Module name.
+	 * @return {*} Exported module.
+	 */
+
+	require(module) {
+		return this.run(`module.exports = require(&#x27;${module}&#x27;);`, &#x27;vm.js&#x27;);
+	}
+
+	/**
+	 * Run the code in NodeVM.
+	 *
+	 * First time you run this method, code is executed same way like in node&#x27;s regular `require` - it&#x27;s executed with `module`, `require
+`, `exports`, `__dirname`, `__filename` variables and expect result in `mo ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.main.VM" id="apidoc.element.vm2.main.VM">
+        function <span class="apidocSignatureSpan">vm2.main.</span>VM
+        <span class="apidocSignatureSpan">(options = {})</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VM extends EventEmitter {
+	<span class="apidocCodeCommentSpan">/**
+	 * Makes the object read only.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @return {*} Frozen object.
+	 */
+</span>
+	/**
+	 * Create VM instance.
+	 *
+	 * @param {Object} [options] VM options.
+	 * @return {VM}
+	 */
+
+	constructor(options = {}) {
+		super();
+
+		// defaults
+		this.options = {
+			timeout: options.timeout != null ? options.timeout : undefined,
+			sandbox: options.sandbox != null ? options.sandbox : null,
+			compiler: options.compiler != null ? options.compiler : &#x27;javascript&#x27;
+		};
+
+		const host = {
+			console,
+			String,
+			Number,
+			Buffer,
+			Boolean,
+			Array,
+			Date,
+			Error,
+			RangeError,
+			ReferenceError,
+			SyntaxError,
+			TypeError,
+			RegExp,
+			Function,
+			Object,
+			VMError,
+			Proxy,
+			Reflect,
+			Map,
+			WeakMap,
+			Set,
+			WeakSet,
+			Promise
+		};
+
+		this._context = vm.createContext();
+
+		Reflect.defineProperty(this, &#x27;_internal&#x27;, {
+			value: vm.runInContext(`(function(require, host) { ${cf} \n})`, this._context, {
+				filename: `${__dirname}/contextify.js`,
+				displayErrors: false
+			}).call(this._context, require, host)
+		});
+
+		// prepare global sandbox
+		if (this.options.sandbox) {
+			if (&#x27;object&#x27; !== typeof this.options.sandbox) {
+				throw new VMError(&#x22;Sandbox must be object.&#x22;);
+			}
+
+			for (let name in this.options.sandbox) {
+				this._internal.Contextify.globalValue(this.options.sandbox[name], name);
+			}
+		}
+	}
+
+	/**
+	 * Freezes the object inside VM making it read-only. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to freeze.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to freeze.
+	 */
+
+	freeze(value, globalName) {
+		this._internal.Contextify.readonly(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Protects the object inside VM making impossible to set functions as it&#x27;s properties. Not available for primitive values.
+	 *
+	 * @static
+	 * @param {*} object Object to protect.
+	 * @param {String} [globalName] Whether to add the object to global.
+	 * @return {*} Object to protect.
+	 */
+
+	protect(value, globalName) {
+		this._internal.Contextify.protected(value);
+		if (global) this._internal.Contextify.globalValue(value, globalName);
+		return value;
+	}
+
+	/**
+	 * Run the code in VM.
+	 *
+	 * @param {String} code Code to run.
+	 * @return {*} Result of executed code.
+	 */
+
+	run(code) {
+		if (this.options.compiler !== &#x27;javascript&#x27;) {
+			code = _compileToJS(code, this.options.compiler);
+		}
+		
+		const script = code instanceof VMScript ? code : new VMScript(code);
+
+		try {
+			return this._internal.Decontextify.value(script.compile()._compiled.runInContext(this._context, {
+				filename: script.filename,
+				displayErrors: false,
+				timeout: this.options.timeout
+			}));
+		} catch (e) {
+			throw this._internal.Decontextify.value(e);
+		}
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.main.VMError" id="apidoc.element.vm2.main.VMError">
+        function <span class="apidocSignatureSpan">vm2.main.</span>VMError
+        <span class="apidocSignatureSpan">(message)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VMError extends Error {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create VMError instance.
+	 *
+	 * @param {String} message Error message.
+	 * @return {VMError}
+	 */
+</span>
+	constructor(message) {
+		super(message);
+
+		this.name = &#x27;VMError&#x27;;
+
+		Error.captureStackTrace(this, this.constructor);
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.vm2.main.VMScript" id="apidoc.element.vm2.main.VMScript">
+        function <span class="apidocSignatureSpan">vm2.main.</span>VMScript
+        <span class="apidocSignatureSpan">(code, filename)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">class VMScript {
+	<span class="apidocCodeCommentSpan">/**
+	 * Create VMScript instance.
+	 *
+	 * @param {String} code Code to run.
+	 * @param {String} [filename] Filename that shows up in any stack traces produced from this script.
+	 * @return {VMScript}
+	 */
+</span>
+	constructor(code, filename) {
+		this.code = code;
+		this.filename = filename || &#x27;vm.js&#x27;;
+	}
+
+	/**
+	 * Wraps the code.
+	 *
+	 * @return {VMScript}
+	 */
+	
+	wrap(prefix, postfix) {
+		if (this._wrapped) return this;
+		this.code = prefix + this.code + postfix;
+		this._wrapped = true;
+		return this;
+	}
+
+	/**
+	 * Compiles the code. If called multiple times, the code is only compiled once.
+	 *
+	 * @return {VMScript}
+	 */
+	
+	compile() {
+		if (this._compiled) return this;
+		
+		this._compiled = new vm.Script(this.code, {
+			filename: this.filename,
+			displayErrors: false
+		})
+		
+		return this;
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
