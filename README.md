@@ -1,6 +1,6 @@
 # npmdoc-vm2
 
-#### api documentation for  [vm2 (v3.4.6)](https://github.com/patriksimek/vm2#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-vm2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-vm2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-vm2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-vm2)
+#### basic api documentation for  [vm2 (v3.4.6)](https://github.com/patriksimek/vm2#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-vm2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-vm2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-vm2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-vm2)
 
 #### vm2 is a sandbox that can run untrusted code with whitelisted Node's built-in modules. Securely!
 
